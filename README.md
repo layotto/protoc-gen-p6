@@ -18,7 +18,11 @@ Please make sure you have tools below:
 Go version >= 1.16
 
 ## How to give p6 new work
-You can give p6 new work using `protoc`. For example:
+Suppose you have a new proto file `example/api/product/app/v1/blog.proto`, and you want to implement this API in [Layotto](https://github.com/mosn/layotto) . 
+
+It's a tedious job because you have to write lots of boring code. You don't want to do it yourself.
+
+Then you can give p6 new work using `protoc`. For example:
 
 ```shell
 go install
@@ -34,3 +38,9 @@ or, you can give her an example work by:
 ```shell
 make work.example
 ```
+
+And p6 will write the code very quickly:
+
+![image](https://user-images.githubusercontent.com/26001097/187592056-0d204d3a-8de0-4d1e-81a8-72c6f8de49d9.png)
+
+You can then move these code to Layotto project.
