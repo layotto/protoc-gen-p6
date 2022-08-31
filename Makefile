@@ -1,4 +1,4 @@
-gen.example:
+work.example:
 	go install
 	  protoc -I ./example/api \
       --go_out ./example/api --go_opt=paths=source_relative \
