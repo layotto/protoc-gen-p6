@@ -43,6 +43,6 @@ make work.example
 
 And p6 will write the code very quickly:
 
-![image](https://user-images.githubusercontent.com/26001097/187592056-0d204d3a-8de0-4d1e-81a8-72c6f8de49d9.png)
+![image](https://user-images.githubusercontent.com/26001097/187620570-d4666c28-8390-437d-8e9c-9ab17064e508.png)
 
 You can then move these code to Layotto project.
