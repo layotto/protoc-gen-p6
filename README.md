@@ -3,7 +3,7 @@
 
 p6 is a protoc plugin. 
 
-She is good at coding and writes code for Layotto project. 
+She is good at coding and writes code for [Layotto](https://github.com/mosn/layotto) project. 
 
 p6 works hard.
 
