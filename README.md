@@ -17,6 +17,10 @@ Please make sure you have tools below:
 
 Go version >= 1.16
 
+```shell
+go install github.com/seeflood/protoc-gen-p6@latest
+```
+
 ## How to give p6 new work
 Suppose you have a new proto file [example/api/product/app/v1/blog.proto](example/api/product/app/v1/blog.proto) , and you want to implement this API in [Layotto](https://github.com/mosn/layotto) . 
 
@@ -25,8 +29,6 @@ It's a tedious job because you have to write lots of boring code. You don't want
 Then you can ask p6 to do it. For example:
 
 ```shell
-go install
-
 protoc -I ./example/api \
       --go_out ./example/api --go_opt=paths=source_relative \
       --p6_out ./example/api --p6_opt=paths=source_relative \
