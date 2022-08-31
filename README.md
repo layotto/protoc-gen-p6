@@ -22,7 +22,7 @@ Suppose you have a new proto file `example/api/product/app/v1/blog.proto`, and y
 
 It's a tedious job because you have to write lots of boring code. You don't want to do it yourself.
 
-Then you can give p6 new work using `protoc`. For example:
+Then you can ask p6 to do it. For example:
 
 ```shell
 go install
