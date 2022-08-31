@@ -18,6 +18,7 @@ Please make sure you have tools below:
 Go version >= 1.16
 
 ## How to give p6 new work
+You can give p6 new work using `protoc`. For example:
 
 ```shell
 go install
