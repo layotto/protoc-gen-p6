@@ -37,7 +37,7 @@ func (r *renderImpl) initGeneratedFile() *protogen.GeneratedFile {
 	//filename := path + "/client/client_generated.go"
 	filename := "client/client_generated.go"
 
-	g := r.gen.NewGeneratedFile(filename, r.gen.Files[0].GoImportPath)
+	g := r.gen.NewGeneratedFile(filename, "mosn.io/layotto/sdk/go-sdk/client")
 
 	utils.AddHeader(g, false)
 
@@ -79,14 +79,18 @@ type Client interface {
 
 	g.P("}")
 
-	// 2. constructor
+	// 2. NewClientWithConnection
 	g.P(`
 // NewClientWithConnection instantiates runtime client using specific connection.
 func NewClientWithConnection(conn *grpc.ClientConn) Client {
 	return &GRPCClient{
 		connection:                 conn,`)
+
 	// protoClient:                v1.NewRuntimeClient(conn),
 	g.P("\t\tprotoClient:                ", runtimev1pbPkg, "NewRuntimeClient(conn),")
+
+	// ObjectStorageServiceClient: s3.NewObjectStorageServiceClient(conn),
+	g.P("\t\tObjectStorageServiceClient: s3.NewObjectStorageServiceClient(conn),")
 
 	// clients for different services
 	// e.g. 		BlogServiceClient: blog.NewBlogServiceClient(conn),
@@ -107,12 +111,15 @@ func NewClientWithConnection(conn *grpc.ClientConn) Client {
 	// the end of the constructor
 	g.P(`	}
 }`)
+
 	// 3. generate the GRPCClient struct
 	g.P(`
 // GRPCClient is the gRPC implementation of runtime client.
 type GRPCClient struct {
 	connection  *grpc.ClientConn`)
 	g.P("\tprotoClient ", runtimev1pbPkg, "RuntimeClient")
+	g.P("\ts3.ObjectStorageServiceClient")
+
 	// clients for different services
 	// e.g.  blog.BlogServiceClient
 	for _, file := range files {
