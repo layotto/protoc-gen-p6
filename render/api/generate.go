@@ -51,6 +51,8 @@ func GenerateApplicationContext(gen *protogen.Plugin, files []*protogen.File) *p
 	g.QualifiedGoIdent(protogen.GoImportPath("mosn.io/layotto/components/oss").Ident(""))
 	g.QualifiedGoIdent(protogen.GoImportPath("mosn.io/layotto/components/rpc").Ident(""))
 	g.QualifiedGoIdent(protogen.GoImportPath("mosn.io/layotto/components/sequencer").Ident(""))
+	g.QualifiedGoIdent(protogen.GoImportPath("mosn.io/layotto/pkg/runtime/lifecycle").Ident(""))
+	g.QualifiedGoIdent(protogen.GoImportPath("mosn.io/layotto/components/pkg/common").Ident(""))
 	g.P()
 
 	g.P(`// ApplicationContext contains all you need to construct your GrpcAPI, such as all the components.
@@ -68,6 +70,7 @@ type ApplicationContext struct {
 	Sequencers            map[string]sequencer.Store
 	SendToOutputBindingFn func(name string, req *bindings.InvokeRequest) (*bindings.InvokeResponse, error)
 	SecretStores          map[string]secretstores.SecretStore
+	DynamicComponents     map[lifecycle.ComponentKey]common.DynamicComponent
 	CustomComponent       map[string]map[string]custom.Component`)
 
 	for _, file := range files {

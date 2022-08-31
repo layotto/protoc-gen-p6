@@ -78,13 +78,13 @@ func GenerateOptions(gen *protogen.Plugin, files []*protogen.File) *protogen.Gen
 	//	}
 	//}
 	for _, file := range files {
-		for _ = range file.Services {
+		for _, service := range file.Services {
 			// add import
 			pkgName := utils.ImportComponent(g, file.GoPackageName)
 
 			nickName := pkgName[:len(pkgName)-1]
 			//  func WithOssFactory(oss ...*oss.Factory) Option {
-			g.P(fmt.Sprintf("func WithOssFactory(%s ...*%s.Factory) Option {", nickName, nickName))
+			g.P(fmt.Sprintf("func With%sFactory(%s ...*%s.Factory) Option {", service.GoName, nickName, nickName))
 			// 	return func(o *runtimeOptions) {
 			g.P("\treturn func(o *runtimeOptions) {")
 			//		o.services.oss = append(o.services.oss, oss...)
@@ -141,6 +141,7 @@ func GenerateNewApplicationContext(gen *protogen.Plugin, files []*protogen.File)
 		Sequencers:            m.sequencers,
 		SendToOutputBindingFn: m.sendToOutputBinding,
 		SecretStores:          m.secretStores,
+		DynamicComponents:     m.dynamicComponents,
 		CustomComponent:       m.customComponent,`)
 
 	// e.g.
