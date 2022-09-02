@@ -1,5 +1,5 @@
 # protoc-gen-p6
-<img src="https://user-images.githubusercontent.com/26001097/187589228-23f04889-6c0e-41d9-abbb-89057a6d777d.png" width="20%" height="20%">
+<img src="https://user-images.githubusercontent.com/26001097/188037681-005b8104-823e-45ea-82a9-3f77cd371636.png" width="30%" height="30%">
 
 p6 is a protoc plugin. 
 
