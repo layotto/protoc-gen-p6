@@ -6,7 +6,7 @@ import (
 	"google.golang.org/protobuf/compiler/protogen"
 )
 
-func GenerateConfig(gen *protogen.Plugin, files []*protogen.File) *protogen.GeneratedFile {
+func GenerateExtensionComponentConfig(gen *protogen.Plugin, files []*protogen.File) *protogen.GeneratedFile {
 	filename := "runtime/config_generated.go"
 	g := gen.NewGeneratedFile(filename, files[0].GoImportPath)
 
@@ -29,7 +29,7 @@ func GenerateConfig(gen *protogen.Plugin, files []*protogen.File) *protogen.Gene
 			g.P("// ", pkgName)
 
 			// e.g. 	BlogService map[string]blog.BlogService `json:"blog"`
-			g.P(fmt.Sprintf("\t%s\tmap[string]%s%s\t`json:\"%s\"`", service.GoName, pkgName, service.GoName, pkgName[:len(pkgName)-1]))
+			g.P(fmt.Sprintf("\t%s\tmap[string]%sConfig\t`json:\"%s\"`", service.GoName, pkgName, pkgName[:len(pkgName)-1]))
 			g.P()
 		}
 	}
@@ -53,7 +53,7 @@ func GenerateOptions(gen *protogen.Plugin, files []*protogen.File) *protogen.Gen
 	g.P(`type extensionComponentFactorys struct {`)
 
 	for _, file := range files {
-		for _, service := range file.Services {
+		for _ = range file.Services {
 			// add import
 			importPath := "mosn.io/layotto/components/" + string(file.GoPackageName)
 			pkgName := g.QualifiedGoIdent(protogen.GoImportPath(importPath).Ident(""))
@@ -63,7 +63,7 @@ func GenerateOptions(gen *protogen.Plugin, files []*protogen.File) *protogen.Gen
 
 			nickName := pkgName[:len(pkgName)-1]
 			// e.g. 	oss           []*oss.Factory
-			g.P(fmt.Sprintf("\t%s\t[]*%s%s", nickName, pkgName, service.GoName))
+			g.P(fmt.Sprintf("\t%s\t[]*%sFactory", nickName, pkgName))
 			g.P()
 		}
 	}
@@ -95,6 +95,7 @@ func GenerateOptions(gen *protogen.Plugin, files []*protogen.File) *protogen.Gen
 			g.P()
 		}
 	}
+
 	// 4. WithExtensionGrpcAPI
 	g.QualifiedGoIdent(protogen.GoImportPath("mosn.io/layotto/pkg/grpc/extension/s3").Ident(""))
 	g.P(`func WithExtensionGrpcAPI() Option {
@@ -249,9 +250,12 @@ func GenerateComponentRelatedCode(gen *protogen.Plugin, files []*protogen.File) 
 
 	for _, file := range files {
 		for _, service := range file.Services {
+			pkgName := utils.ImportComponent(g, file.GoPackageName)
+			pkgName = pkgName[:len(pkgName)-1]
+
 			g.P(fmt.Sprintf(`	if err := m.init%s(s.%s...); err != nil {
 		return err
-	}`, service.GoName, utils.LowerCammel(service.GoName)))
+	}`, service.GoName, pkgName))
 			g.P()
 		}
 	}

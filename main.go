@@ -15,13 +15,6 @@ import (
 
 const version = "0.0.1"
 
-type A struct {
-	B
-}
-type B struct {
-	xxx map[string]string
-}
-
 func main() {
 	// check version flag
 	showVersion := flag.Bool("version", false, "show version")
@@ -49,8 +42,9 @@ func main() {
 			}
 			// 1. generate components code
 			// struct
-			path, name := utils.SplitDirectoryAndFilename(f.GeneratedFilenamePrefix)
-			filename := path + "/components/" + name + ".struct.go"
+			_, name := utils.SplitDirectoryAndFilename(f.GeneratedFilenamePrefix)
+			dir := "components/" + name + "/"
+			filename := dir + "/struct_generated.go"
 			genstruct.GenerateStructFile(gen, f, filename)
 
 			// interface
@@ -58,10 +52,11 @@ func main() {
 			if len(f.Services) == 0 {
 				continue
 			}
-			filename = path + "/components/" + name + ".interface.go"
+			filename = dir + "/interface_generated.go"
 			gentemplate.GenerateComponentInterface(gen, f, filename)
+
 			// types
-			filename = path + "/components/" + name + ".types.go"
+			filename = dir + "/types_generated.go"
 			gentemplate.GenerateComponentTypes(gen, f, filename)
 
 			// 2. generate gRPC API plugin code
@@ -69,11 +64,11 @@ func main() {
 
 			services = append(services, f)
 		}
-		// 3. ApplicationContext
+		// 3. generate ApplicationContext
 		api.GenerateApplicationContext(gen, services)
 
 		// 4. runtime related code
-		runtime.GenerateConfig(gen, services)
+		runtime.GenerateExtensionComponentConfig(gen, services)
 		runtime.GenerateOptions(gen, services)
 		runtime.GenerateNewApplicationContext(gen, services)
 		runtime.GenerateComponentRelatedCode(gen, services)

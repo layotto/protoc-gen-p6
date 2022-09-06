@@ -47,6 +47,7 @@ func (r *renderImpl) initGeneratedFile() *protogen.GeneratedFile {
 	runtimev1pbPkg = g.QualifiedGoIdent(runtimev1pbImport.Ident(""))
 	contextPkg = g.QualifiedGoIdent(contextImport.Ident(""))
 	grpcPkg = g.QualifiedGoIdent(grpcImport.Ident(""))
+	s3Pkg = g.QualifiedGoIdent(s3Import.Ident(""))
 	g.P()
 
 	g.P("// Reference imports to suppress errors if they are not otherwise used.")
@@ -58,12 +59,12 @@ func (r *renderImpl) initGeneratedFile() *protogen.GeneratedFile {
 
 func (r *renderImpl) generateSDK(files []*protogen.File, g *protogen.GeneratedFile) {
 	// 1. add `Client` interface
-	g.P(`// Client is the interface for runtime client implementation.
+	g.P(fmt.Sprintf(`// Client is the interface for runtime client implementation.
 type Client interface {
 	runtimeAPI
 
-	s3.ObjectStorageServiceClient
-`)
+	%sObjectStorageServiceClient
+`, s3Pkg))
 
 	for _, file := range files {
 		for _, service := range file.Services {
@@ -90,7 +91,7 @@ func NewClientWithConnection(conn *grpc.ClientConn) Client {
 	g.P("\t\tprotoClient:                ", runtimev1pbPkg, "NewRuntimeClient(conn),")
 
 	// ObjectStorageServiceClient: s3.NewObjectStorageServiceClient(conn),
-	g.P("\t\tObjectStorageServiceClient: s3.NewObjectStorageServiceClient(conn),")
+	g.P(fmt.Sprintf("\t\tObjectStorageServiceClient: %sNewObjectStorageServiceClient(conn),", s3Pkg))
 
 	// clients for different services
 	// e.g. 		BlogServiceClient: blog.NewBlogServiceClient(conn),
@@ -118,7 +119,7 @@ func NewClientWithConnection(conn *grpc.ClientConn) Client {
 type GRPCClient struct {
 	connection  *grpc.ClientConn`)
 	g.P("\tprotoClient ", runtimev1pbPkg, "RuntimeClient")
-	g.P("\ts3.ObjectStorageServiceClient")
+	g.P(fmt.Sprintf("\t%sObjectStorageServiceClient", s3Pkg))
 
 	// clients for different services
 	// e.g.  blog.BlogServiceClient

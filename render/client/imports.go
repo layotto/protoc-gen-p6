@@ -6,6 +6,7 @@ const (
 	contextImport      = protogen.GoImportPath("context")
 	grpcImport         = protogen.GoImportPath("google.golang.org/grpc")
 	runtimev1pbImport  = protogen.GoImportPath("mosn.io/layotto/spec/proto/runtime/v1")
+	s3Import           = protogen.GoImportPath("mosn.io/layotto/spec/proto/extension/v1/s3")
 	deprecationComment = "// Deprecated: Do not use."
 )
 
@@ -16,4 +17,5 @@ var (
 	contextPkg     string
 	runtimev1pbPkg string
 	grpcPkg        string
+	s3Pkg          string
 )
