@@ -24,6 +24,7 @@ func (s *server) {{.Name}}(ctx context.Context, in *{{$pb_name}}.{{.Request}}) (
 	if comp == nil {
 		return nil, invalidArgumentError("{{.Name}}", grpc_api.ErrComponentNotFound, "{{$pb_name}}", in.ComponentName)
 	}
+
 	// convert request
 	var req {{$component_name}}.{{.Request}}
 	bytes, err := json.Marshal(in)
@@ -34,13 +35,15 @@ func (s *server) {{.Name}}(ctx context.Context, in *{{$pb_name}}.{{.Request}}) (
     if err != nil {
 		return nil, status.Errorf(codes.Internal, "Error when json.Unmarshal the request: %s", err.Error())
     }
+
 	// delegate to the component
 	resp, err := comp.{{.Name}}(ctx, &req)
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, err.Error())
 	}
+
 	// convert response
-	var out *{{$pb_name}}.{{.Reply}}
+	var out {{$pb_name}}.{{.Reply}}
 	bytes, err = json.Marshal(resp)
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "Error when json.Marshal the response: %s", err.Error())
