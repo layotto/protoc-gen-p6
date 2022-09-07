@@ -31,6 +31,8 @@ Then you can ask p6 to do it. For example:
 ```shell
 protoc -I ./example/api \
       --go_out ./example/api --go_opt=paths=source_relative \
+      --go-grpc_out=./example/api \
+      --go-grpc_opt=require_unimplemented_servers=false,paths=source_relative \
       --p6_out ./example/api --p6_opt=paths=source_relative \
       example/api/product/app/v1/blog.proto
 ```
@@ -43,6 +45,6 @@ make work.example
 
 And p6 will write the code very quickly:
 
-![image](https://user-images.githubusercontent.com/26001097/187620570-d4666c28-8390-437d-8e9c-9ab17064e508.png)
+![image](https://user-images.githubusercontent.com/26001097/188781256-690b6d47-3d5a-4f09-9dcf-e9dda3ae151f.png)
 
 You can then move these code to Layotto project.
