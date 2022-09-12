@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+option go_package = "github.com/seeflood/protoc-gen-p6/example/api/product/app/v1/advanced_queue;advanced_queue";
+
+package product.app.v1.blog;
+
+/* @exclude extends pub_subs */
+// AdvancedQueue is advanced pubsub API
+service AdvancedQueue {
+
+  rpc PublishTransactionalMessage(TransactionalMessageRequest) returns (TransactionalMessageResponse);
+
+}
+
+message TransactionalMessageRequest {
+  string store_name = 1;
+
+  string content = 2;
+}
+
+message TransactionalMessageResponse {
+  string message_id = 1;
+}

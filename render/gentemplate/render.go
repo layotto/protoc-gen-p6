@@ -18,6 +18,9 @@ var componentTypesTpl string
 //go:embed server.go.tpl
 var apiTpl string
 
+//go:embed extended_server.go.tpl
+var extendedApiTpl string
+
 func newRender(gen *protogen.Plugin, file *protogen.File, g *protogen.GeneratedFile, s *protogen.Service, packageName string) *render {
 	// check deprecated
 	if s.Desc.Options().(*descriptorpb.ServiceOptions).GetDeprecated() {
@@ -42,6 +45,11 @@ func newRender(gen *protogen.Plugin, file *protogen.File, g *protogen.GeneratedF
 	return r
 }
 
+type Component struct {
+	InterfacePath      string
+	FieldNameInContext string
+}
+
 type render struct {
 	Name     string // Greeter
 	FullName string // helloworld.Greeter
@@ -55,6 +63,8 @@ type render struct {
 	PackageName          string
 	ComponentPackageName string
 	GoImportPath         string
+	Extend               *Component
+	//Extends              []*Component
 }
 
 func (s *render) render() string {

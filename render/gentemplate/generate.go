@@ -1,6 +1,7 @@
 package gentemplate
 
 import (
+	"fmt"
 	"github.com/seeflood/protoc-gen-p6/utils"
 	"google.golang.org/protobuf/compiler/protogen"
 )
@@ -48,6 +49,65 @@ func GenerateComponentTypes(gen *protogen.Plugin, file *protogen.File, filename 
 	return g
 }
 
+func GenerateExtendAPI(gen *protogen.Plugin, file *protogen.File, parent string) *protogen.GeneratedFile {
+	filename := "grpc/" + string(file.GoPackageName) + "/server.go"
+	g := gen.NewGeneratedFile(filename, protogen.GoImportPath("mosn.io/layotto/pkg/grpc/"+string(file.GoPackageName)))
+	utils.AddHeader(g, true)
+
+	g.P("package ", file.GoPackageName)
+	g.P()
+
+	componentPackageName := g.QualifiedGoIdent(protogen.GoImportPath("mosn.io/layotto/components/" + file.GoPackageName).Ident(""))
+	pbPackageName := g.QualifiedGoIdent(protogen.GoIdent{
+		GoImportPath: file.GoImportPath,
+	})
+	g.P()
+
+	for _, service := range file.Services {
+		r := newRender(gen, file, g, service, pbPackageName[:len(pbPackageName)-1])
+		r.ComponentPackageName = componentPackageName[:len(componentPackageName)-1]
+		switch parent {
+		case "lock":
+			r.Extend = &Component{
+				FieldNameInContext: "LockStores",
+			}
+		case "sequencer":
+			r.Extend = &Component{
+				FieldNameInContext: "Sequencers",
+			}
+		case "config_store":
+			r.Extend = &Component{
+				FieldNameInContext: "ConfigStores",
+			}
+		case "state":
+			r.Extend = &Component{
+				FieldNameInContext: "StateStores",
+			}
+		case "oss":
+			r.Extend = &Component{
+				FieldNameInContext: "Oss",
+			}
+		case "secret_store":
+			r.Extend = &Component{
+				FieldNameInContext: "SecretStores",
+			}
+		case "file":
+			r.Extend = &Component{
+				FieldNameInContext: "Files",
+			}
+		case "pub_subs":
+			r.Extend = &Component{
+				FieldNameInContext: "PubSubs",
+			}
+		default:
+			panic(fmt.Sprintf("API extends an illegal parent: %s", parent))
+		}
+		g.P(r.doRender("api", extendedApiTpl))
+	}
+
+	return g
+}
+
 func GenerateAPI(gen *protogen.Plugin, file *protogen.File) *protogen.GeneratedFile {
 	filename := "grpc/" + string(file.GoPackageName) + "/server.go"
 	g := gen.NewGeneratedFile(filename, protogen.GoImportPath("mosn.io/layotto/pkg/grpc/"+string(file.GoPackageName)))
@@ -65,6 +125,7 @@ func GenerateAPI(gen *protogen.Plugin, file *protogen.File) *protogen.GeneratedF
 	for _, service := range file.Services {
 		r := newRender(gen, file, g, service, pbPackageName[:len(pbPackageName)-1])
 		r.ComponentPackageName = componentPackageName[:len(componentPackageName)-1]
+		//r.DebugInfo = file.Proto.String()
 		g.P(r.render())
 	}
 
