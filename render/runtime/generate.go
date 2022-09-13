@@ -95,8 +95,20 @@ func GenerateOptions(gen *protogen.Plugin, files []*protogen.File) *protogen.Gen
 			g.P()
 		}
 	}
+	return g
+}
 
-	// 4. WithExtensionGrpcAPI
+func GenerateWithExtensionGrpcAPI(gen *protogen.Plugin, files []*protogen.File) *protogen.GeneratedFile {
+	filename := "runtime/extension_api_generated.go"
+	g := gen.NewGeneratedFile(filename, files[0].GoImportPath)
+
+	// 1. headers
+	utils.AddHeader(g, false)
+	g.P()
+	g.P("package ", "runtime")
+	g.P()
+
+	// 2. WithExtensionGrpcAPI
 	g.QualifiedGoIdent(protogen.GoImportPath("mosn.io/layotto/pkg/grpc/extension/s3").Ident(""))
 	g.P(`func WithExtensionGrpcAPI() Option {
 	return WithGrpcAPI(
