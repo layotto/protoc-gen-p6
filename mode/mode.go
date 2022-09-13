@@ -32,3 +32,14 @@ func CheckMode(comments []string) (CompilationMode, []string) {
 	// default mode
 	return Independent, nil
 }
+
+func NeedGenerateSDK(comments []string) bool {
+	for _, comment := range comments {
+		if strings.Index(comment, `@exclude skip sdk_generator`) > -1 {
+			return false
+		}
+	}
+
+	// generate sdk by default
+	return true
+}

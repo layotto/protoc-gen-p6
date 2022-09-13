@@ -58,6 +58,7 @@ Here is the list of commands:
 
 ### skip quickstart_generator
 If you don't want to generate quickstart docs for the proto file, add a command `/* @exclude skip quickstart_generator */` in it.
+
 ### skip code_generator
 If you don't want to generate sdk & sidecar code for the proto file, add a command `/* @exclude skip code_generator */` in it.
 
@@ -72,6 +73,9 @@ service ObjectStorageService{
   //......
 }
 ```
+
+### skip sdk_generator
+If you don't want to generate golang-sdk code for the proto file, add a command `/* @exclude skip sdk_generator */` in it.
 
 ### extends xxx
 If you want to extend an existing API, you can use this command. 

@@ -36,6 +36,7 @@ func main() {
 		gen.SupportedFeatures = uint64(pluginpb.CodeGeneratorResponse_FEATURE_PROTO3_OPTIONAL)
 		components := make([]*protogen.File, 0)
 		apis := make([]*protogen.File, 0)
+		needSDK := make([]*protogen.File, 0)
 
 		sdkRender := client.NewRender(gen)
 
@@ -87,6 +88,10 @@ func main() {
 
 			// 2. collect api plugins
 			apis = append(apis, f)
+
+			if mode.NeedGenerateSDK(comments) {
+				needSDK = append(needSDK, f)
+			}
 		}
 		if len(components) > 0 {
 			// 3. generate ApplicationContext
@@ -100,7 +105,8 @@ func main() {
 		}
 
 		runtime.GenerateWithExtensionGrpcAPI(gen, apis)
-		// 5. generate sdk
-		return sdkRender.Render(apis)
+
+		// 5. generate golang sdk
+		return sdkRender.Render(needSDK)
 	})
 }
