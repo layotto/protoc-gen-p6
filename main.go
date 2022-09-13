@@ -95,11 +95,11 @@ func main() {
 			// 4. runtime related code
 			runtime.GenerateExtensionComponentConfig(gen, components)
 			runtime.GenerateOptions(gen, components)
-			runtime.GenerateWithExtensionGrpcAPI(gen, components)
 			runtime.GenerateNewApplicationContext(gen, components)
 			runtime.GenerateComponentRelatedCode(gen, components)
 		}
 
+		runtime.GenerateWithExtensionGrpcAPI(gen, apis)
 		// 5. generate sdk
 		return sdkRender.Render(apis)
 	})
