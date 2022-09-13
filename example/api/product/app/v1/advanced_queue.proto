@@ -4,6 +4,7 @@ option go_package = "github.com/seeflood/protoc-gen-p6/example/api/product/app/v
 
 package product.app.v1.blog;
 
+/* @exclude skip sdk_generator */
 /* @exclude extends pub_subs */
 // AdvancedQueue is advanced pubsub API
 service AdvancedQueue {
