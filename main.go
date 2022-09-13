@@ -107,6 +107,9 @@ func main() {
 		runtime.GenerateWithExtensionGrpcAPI(gen, apis)
 
 		// 5. generate golang sdk
-		return sdkRender.Render(needSDK)
+		if len(needSDK) > 0 {
+			return sdkRender.Render(needSDK)
+		}
+		return nil
 	})
 }
