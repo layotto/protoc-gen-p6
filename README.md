@@ -78,7 +78,7 @@ service ObjectStorageService{
 If you don't want to generate golang-sdk code for the proto file, add a command `/* @exclude skip sdk_generator */` in it.
 
 ### extends xxx
-If you want to extend an existing API, you can use this command. 
+If you want to add new methods to an existing API, you can use this command. 
 
 Let's say you want to add a `PublishTransactionalMessage` method to `pubsub` API. You write a new proto file [example/api/product/app/v1/advanced_queue.proto](example/api/product/app/v1/advanced_queue.proto) and then add a command `/* @exclude extends pub_subs */` in it:
 
