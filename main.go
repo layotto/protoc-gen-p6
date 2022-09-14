@@ -51,8 +51,8 @@ func main() {
 			filename := dir + "/struct_generated.go"
 			genstruct.GenerateStructFile(gen, f, filename)
 
-			// 1.2. generate interface
-			// check there is any service
+			// 1.2. generate code for grpc service
+			// check if there is any service
 			if len(f.Services) == 0 {
 				continue
 			}
@@ -60,7 +60,7 @@ func main() {
 			if len(f.Services) > 1 {
 				panic("There are more than one service in a file.")
 			}
-			// 1.3. check mode
+			// check mode
 			comments := make([]string, 0)
 			for _, comment := range f.Services[0].Comments.LeadingDetached {
 				comments = append(comments, comment.String())
@@ -69,9 +69,10 @@ func main() {
 			compileMode, args := mode.CheckMode(comments)
 
 			filename = dir + "/interface_generated.go"
-			gentemplate.GenerateComponentInterface(gen, f, filename)
 
 			if compileMode == mode.Independent {
+				// generate component interface
+				gentemplate.GenerateComponentInterface(gen, f, filename)
 				// generate types
 				filename = dir + "/types_generated.go"
 				gentemplate.GenerateComponentTypes(gen, f, filename)
@@ -82,6 +83,11 @@ func main() {
 				gentemplate.GenerateAPI(gen, f)
 			} else if compileMode == mode.Extend {
 				// TODO multiple extends
+
+				// generate component interface
+				gentemplate.GenerateExtendComponentInterface(gen, f, filename)
+				// no need to generate types
+
 				// generate gRPC API plugin code
 				gentemplate.GenerateExtendAPI(gen, f, args[0])
 			}

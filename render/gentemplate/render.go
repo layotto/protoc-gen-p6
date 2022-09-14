@@ -12,6 +12,9 @@ import (
 //go:embed component.go.tpl
 var componentTpl string
 
+//go:embed extended_component.go.tpl
+var extendedComponentTpl string
+
 //go:embed component_types.go.tpl
 var componentTypesTpl string
 

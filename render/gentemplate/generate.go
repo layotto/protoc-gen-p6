@@ -30,6 +30,23 @@ func GenerateComponentInterface(gen *protogen.Plugin, file *protogen.File, filen
 	return g
 }
 
+func GenerateExtendComponentInterface(gen *protogen.Plugin, file *protogen.File, filename string) *protogen.GeneratedFile {
+	g := gen.NewGeneratedFile(filename, file.GoImportPath)
+	utils.AddHeader(g, false)
+	g.P()
+	g.P("package ", file.GoPackageName)
+	g.P()
+	g.QualifiedGoIdent(contextPkg.Ident(""))
+	g.P()
+
+	for _, service := range file.Services {
+		r := newRender(gen, file, g, service, string(file.GoPackageName))
+		g.P(r.doRender("component", extendedComponentTpl))
+	}
+
+	return g
+}
+
 func GenerateComponentTypes(gen *protogen.Plugin, file *protogen.File, filename string) *protogen.GeneratedFile {
 	g := gen.NewGeneratedFile(filename, file.GoImportPath)
 	utils.AddHeader(g, false)
