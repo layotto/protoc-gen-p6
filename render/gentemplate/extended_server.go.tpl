@@ -51,7 +51,10 @@ func (s *server) {{.Name}}(ctx context.Context, in *{{$pb_name}}.{{.Request}}) (
 	// convert response
 	out := &{{$pb_name}}.{{.Reply}}{}
 	err = copier.CopyWithOption(out, resp, copier.Option{IgnoreEmpty: true, DeepCopy: true, Converters: []copier.TypeConverter{}})
-	return out, err
+    if err != nil {
+        return nil, status.Errorf(codes.Internal, "Error when converting the response: %s", err.Error())
+    }
+	return out, nil
 }
 {{end}}
 
