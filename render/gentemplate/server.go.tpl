@@ -1,4 +1,5 @@
 import (
+	"github.com/jinzhu/copier"
     rawGRPC "google.golang.org/grpc"
     grpc_api "mosn.io/layotto/pkg/grpc"
 )
@@ -26,33 +27,22 @@ func (s *server) {{.Name}}(ctx context.Context, in *{{$pb_name}}.{{.Request}}) (
 	}
 
 	// convert request
-	var req {{$component_name}}.{{.Request}}
-	bytes, err := json.Marshal(in)
-	if err != nil {
-		return nil, status.Errorf(codes.Internal, "Error when json.Marshal the request: %s", err.Error())
-	}
-	err = json.Unmarshal(bytes, &req)
+	req := &{{$component_name}}.{{.Request}}{}
+	err := copier.CopyWithOption(req, in, copier.Option{IgnoreEmpty: true, DeepCopy: true, Converters: []copier.TypeConverter{}})
     if err != nil {
-		return nil, status.Errorf(codes.Internal, "Error when json.Unmarshal the request: %s", err.Error())
+        return nil, status.Errorf(codes.Internal, "Error when converting the request: %s", err.Error())
     }
 
 	// delegate to the component
-	resp, err := comp.{{.Name}}(ctx, &req)
+	resp, err := comp.{{.Name}}(ctx, req)
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, err.Error())
 	}
 
 	// convert response
-	var out {{$pb_name}}.{{.Reply}}
-	bytes, err = json.Marshal(resp)
-	if err != nil {
-		return nil, status.Errorf(codes.Internal, "Error when json.Marshal the response: %s", err.Error())
-	}
-	err = json.Unmarshal(bytes, &out)
-	if err != nil {
-		return nil, status.Errorf(codes.Internal, "Error when json.Unmarshal the response: %s", err.Error())
-	}
-	return &out, nil
+	out := &{{$pb_name}}.{{.Reply}}{}
+	err = copier.CopyWithOption(out, resp, copier.Option{IgnoreEmpty: true, DeepCopy: true, Converters: []copier.TypeConverter{}})
+	return out, err
 }
 {{end}}
 

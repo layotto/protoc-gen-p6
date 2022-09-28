@@ -70,7 +70,7 @@ type render struct {
 	//Extends              []*Component
 }
 
-func (s *render) render() string {
+func (s *render) renderApiPlugin() string {
 	return s.doRender("l8", apiTpl)
 }
 

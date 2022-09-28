@@ -143,7 +143,7 @@ func GenerateAPI(gen *protogen.Plugin, file *protogen.File) *protogen.GeneratedF
 		r := newRender(gen, file, g, service, pbPackageName[:len(pbPackageName)-1])
 		r.ComponentPackageName = componentPackageName[:len(componentPackageName)-1]
 		//r.DebugInfo = file.Proto.String()
-		g.P(r.render())
+		g.P(r.renderApiPlugin())
 	}
 
 	return g
