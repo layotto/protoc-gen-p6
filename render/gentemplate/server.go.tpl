@@ -23,7 +23,7 @@ func (s *server) {{.Name}}(ctx context.Context, in *{{$pb_name}}.{{.Request}}) (
 	// find the component
 	comp := s.components[in.ComponentName]
 	if comp == nil {
-		return nil, invalidArgumentError("{{.Name}}", grpc_api.ErrComponentNotFound, "{{$pb_name}}", in.ComponentName)
+		return nil, invalidArgumentError("{{.Name}}", grpc_api.ErrComponentNotFound, "{{$component_name}}", in.ComponentName)
 	}
 
 	// convert request
