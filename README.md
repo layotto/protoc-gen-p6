@@ -1,11 +1,17 @@
 # protoc-gen-p6
-<img src="https://user-images.githubusercontent.com/26001097/188037681-005b8104-823e-45ea-82a9-3f77cd371636.png" width="30%" height="30%">
-
 p6 is a protoc plugin. 
 
 She is good at coding and writes code for [Layotto](https://github.com/mosn/layotto) project. 
 
 p6 works hard.
+
+<img src="https://user-images.githubusercontent.com/26001097/195556970-30b9f413-7b8f-4711-b6a6-e61dd2e5f301.png" width="30%" height="30%">
+
+Can you give cute p6 a star ⭐️?
+
+各位哥哥,可以给可爱的 p6 一个star ⭐️吗?
+
+お兄ちゃん、かわいいp6に星⭐️をつけてくれる?
 
 ## Install
 
