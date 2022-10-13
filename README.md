@@ -18,7 +18,7 @@ Please make sure you have tools below:
 Go version >= 1.16
 
 ```shell
-go install github.com/seeflood/protoc-gen-p6@latest
+go install github.com/layotto/protoc-gen-p6@latest
 ```
 
 ## How to give p6 new work

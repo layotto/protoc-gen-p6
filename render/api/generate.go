@@ -2,7 +2,7 @@ package api
 
 import (
 	"fmt"
-	"github.com/seeflood/protoc-gen-p6/utils"
+	"github.com/layotto/protoc-gen-p6/utils"
 	"google.golang.org/protobuf/compiler/protogen"
 )
 

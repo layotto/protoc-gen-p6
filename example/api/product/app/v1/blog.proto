@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option go_package = "github.com/seeflood/protoc-gen-p6/example/api/product/app/v1/blog;blog";
+option go_package = "github.com/layotto/protoc-gen-p6/example/api/product/app/v1/blog;blog";
 
 package product.app.v1.blog;
 

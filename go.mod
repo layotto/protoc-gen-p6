@@ -1,4 +1,4 @@
-module github.com/seeflood/protoc-gen-p6
+module github.com/layotto/protoc-gen-p6
 
 go 1.16
 

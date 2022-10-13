@@ -9,7 +9,7 @@ package genstruct
 
 import (
 	"fmt"
-	"github.com/seeflood/protoc-gen-p6/utils"
+	"github.com/layotto/protoc-gen-p6/utils"
 	"go/ast"
 	"go/parser"
 	"go/token"
