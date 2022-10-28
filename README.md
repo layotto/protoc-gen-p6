@@ -83,6 +83,9 @@ service ObjectStorageService{
 ### skip sdk_generator
 If you don't want to generate golang-sdk code for the proto file, add a command `/* @exclude skip sdk_generator */` in it.
 
+### skip ci_generator
+If you don't want to generate CI configuration for the proto file, add a command `/* @exclude skip ci_generator */` in it.
+
 ### extends xxx
 If you want to add new methods to an existing API, you can use this command. 
 
