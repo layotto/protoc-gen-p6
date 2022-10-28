@@ -120,3 +120,7 @@ protoc -I ./example/api \
 ```
 
 The generated code is an extension of the `pubsub` API.
+
+## Talk with p6
+
+[talk with p6 in chinese](http://www.tuling123.com/static/talk/?a=560161%2FIoS7&u=024A88862D6820B2)
